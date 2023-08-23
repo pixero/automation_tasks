@@ -18,5 +18,5 @@ COPY . /app
 RUN cd /app && \
     yarn install && npx playwright install-deps && \
     npx playwright install
-
-CMD cucumber-js
+RUN export headless='true'
+CMD yarn run test
