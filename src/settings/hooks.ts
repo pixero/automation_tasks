@@ -1,11 +1,14 @@
+import * as dotenv from 'dotenv';
 import {
   After, AfterAll, Before, BeforeAll, Status, setDefaultTimeout,
 } from '@cucumber/cucumber';
 import {
   devices, chromium, firefox, webkit, BrowserType,
 } from 'playwright';
-import { config } from './config';
+import {browserOptions} from './config';
 import { OurWorld } from '../types/types';
+
+dotenv.config();
 
 declare let global: any;
 
@@ -25,7 +28,7 @@ setDefaultTimeout(process.env.PWDEBUG ? -1 : 15 * 1000);
 BeforeAll(async () => {
   // Browsers are expensive in Playwright so only create 1
   const browser = await selectBrowser(process.env.browser as string);
-  global.browser = await browser.launch(config.browserOptions);
+  global.browser = await browser.launch(browserOptions(process.env.headless));
   // устанавливаем базовый url из env
 });
 
