@@ -7,6 +7,7 @@ import {
 } from 'playwright';
 import {browserOptions} from './config';
 import { OurWorld } from '../types/types';
+import { GooglePage } from '../pages/google.page';
 
 dotenv.config();
 
@@ -44,6 +45,7 @@ Before(async function (this: OurWorld) {
     userAgent: device.userAgent,
   });
   this.page = await this.context.newPage();
+  this.googlePage = new GooglePage(this.page);
 });
 
 // Cleanup after each scenario
