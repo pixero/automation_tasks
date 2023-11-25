@@ -16,25 +16,10 @@ export class GooglePage {
   }
 
   async search(query: string) {//вводим значение в поисковую строку
-    await new Promise<void> (resolve => setTimeout(() => resolve(), 1000));
+    await new Promise<void> (resolve => setTimeout(() => resolve(), 1000));//даем время для норм прогрузки страницы
     await this.page.click('textarea[class="gLFyf"]');
     await this.page.fill('textarea[class="gLFyf"]', query);
     await this.page.press('textarea[class="gLFyf"]', 'Enter');//enter для выбора текста
-    await this.page.waitForResponse(response => ((response.url().includes('complete/search'))));
-  }
-
-  async getSearchResults() {
-    await this.page.waitForSelector('#search');
-    const links = await this.page.$$eval('#search a', (elements) =>
-      elements.map((e) => ({
-        text: e.textContent,
-        url: e instanceof HTMLAnchorElement ? e.href : '',
-      }))
-    );
-    return links;
-  }
-
-  async close() {
-    await this.page.close();
+    await this.page.waitForResponse(response => ((response.url().includes('complete/search'))));//ожидаем ответа от сервера
   }
 }
